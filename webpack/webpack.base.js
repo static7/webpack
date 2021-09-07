@@ -1,9 +1,9 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const vueLoaderPlugin = require('vue-loader/lib/plugin');
 const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const vueLoaderPlugin = require('vue-loader/lib/plugin');
-const ProgressBarPlugin = require('progress-bar-webpack-plugin');
+
 module.exports = {
 	entry: {
 		main: path.resolve(__dirname, '../src/main.js'),
@@ -33,9 +33,6 @@ module.exports = {
 		poll: 10
 	},
 	plugins: [
-		new ProgressBarPlugin({
-			format: '  构建中: [:bar] [:percent] (:elapsed 秒)\n',
-		}),
 		new vueLoaderPlugin(),
 		new CleanWebpackPlugin(),
 		new HtmlWebpackPlugin({
@@ -61,6 +58,8 @@ module.exports = {
 		// 指定缓存的版本
 		version: '1.0'
 	},
+	//日志输出
+	stats:"errors-warnings",
 	//处理
 	module: {
 		rules: [

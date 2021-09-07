@@ -1,24 +1,18 @@
-const path = require('path');
-const webpackConfig = require('./webpack.base.js');
-const {merge} = require('webpack-merge');
-const CopyWebpackPlugin = require("copy-webpack-plugin");
-const CssMinimizerPlugin = require('css-minimizer-webpack-plugin'); // 对CSS进行压缩
-const TerserPlugin = require('terser-webpack-plugin'); // 对js进行压缩
-const HappyPack = require('happypack');
 const os = require("os");
+const path = require('path');
+const HappyPack = require('happypack');
+const {merge} = require('webpack-merge');
+const webpackConfig = require('./webpack.base.js');
+const TerserPlugin = require('terser-webpack-plugin'); // 对js进行压缩
+const CopyWebpackPlugin = require("copy-webpack-plugin");
+const ProgressBarPlugin = require('progress-bar-webpack-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin'); // 对CSS进行压缩
 // 创建 happypack 共享进程
 const happyThreadPool = HappyPack.ThreadPool({size: os.cpus().length});
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = (env, argv) => {
 	console.log("模式:", argv);
-
-	if (argv.report === true) {
-		webpackConfig.plugins.push(
-
-		);
-	}
-
 	return merge(webpackConfig, {
 		mode: argv.mode,
 		devtool: "cheap-module-source-map",
@@ -37,6 +31,7 @@ module.exports = (env, argv) => {
 				excludeAssets: null,
 				logLevel: "error"
 			}),
+			new ProgressBarPlugin(),
 			//拷贝
 			new CopyWebpackPlugin({
 				patterns: [
